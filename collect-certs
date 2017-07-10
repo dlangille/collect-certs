@@ -24,8 +24,9 @@ do
 	
 	cert=`${BASENAME} ${dir}`
 	echo ${cert}
-	
-	STAGING_USED=`${SYSRC} -nf ${cert}/${cert}.conf Le_API | grep staging`
+
+   # check the cert config file & ignore anything from staging
+	STAGING_USED=`${SYSRC} -nf ${cert}/${cert}.conf Le_API | ${GREP} staging`
 	if [ ! ${STAGING_USED} ]; then
 		# this is not staging
 		${MKDIR} ${TMP}/${cert}
