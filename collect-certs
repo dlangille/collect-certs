@@ -24,8 +24,7 @@ do
 	
 	cert=`${BASENAME} ${dir}`
 	echo ${cert}
-
-   # check the cert config file & ignore anything from staging
+	# check the cert config file & ignore anything from staging
 	STAGING_USED=`${SYSRC} -nf ${cert}/${cert}.conf Le_API | ${GREP} staging`
 	if [ ! ${STAGING_USED} ]; then
 		# this is not staging
@@ -35,10 +34,10 @@ do
 		${CP} -a ${CERT_SRC}/${cert}/ca.cer        ${TMP}/${cert}/
 		${CP} -a ${CERT_SRC}/${cert}/fullchain.cer ${TMP}/${cert}/${cert}.fullchain.cer
 
-		# if the destination directory already exists, overwrite the contents and remove the directory
-		# we just created	
-		if [ -d ${CERT_DST_ROOT}/${cert} ]; then
-			${MV} ${TMP}/${cert}/* ${CERT_DST_ROOT}/${cert}/
+		# if the destination directory already exists, overwrite the contents and
+		# remove the directory we just created.
+		if [ -d "${CERT_DST_CERTS}/${cert}" ]; then
+			${MV} -f ${TMP}/${cert}/* ${CERT_DST_CERTS}/${cert}
 			${RMDIR} ${TMP}/${cert}
 		else
 			# otherwise, move what we just created into the destination
